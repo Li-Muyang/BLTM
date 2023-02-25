@@ -17,9 +17,9 @@ class mnist_dataset(Data.Dataset):
         targets = torch.from_numpy(original_labels)
 
         dataset = zip(data, targets)
-        new_labels = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
-       	
-        self.train_data, self.val_data, self.train_noisy_labels, self.val_noisy_labels, self.train_clean_labels, self.val_clean_labels = tools.data_split(original_images, targets, new_labels, split_percentage,seed)
+        new_labels,T = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
+        self.T = T
+        self.train_data, self.val_data, self.train_noisy_labels, self.val_noisy_labels, self.train_clean_labels, self.val_clean_labels, self.train_index, self.val_index = tools.data_split(original_images, targets, new_labels, split_percentage,seed)
 
     def __getitem__(self, index):
            
@@ -86,8 +86,8 @@ class cifar10_dataset(Data.Dataset):
         targets = torch.from_numpy(original_labels)
 
         dataset = zip(data, targets)
-        new_labels = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
-
+        new_labels, T = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
+        self.T = T
 
         self.train_data, self.val_data, self.train_noisy_labels, self.val_noisy_labels,self.train_clean_labels, self.val_clean_labels= tools.data_split(original_images, targets, new_labels, split_percentage,seed)
         if self.train:      
@@ -166,8 +166,8 @@ class svhn_dataset(Data.Dataset):
         targets = torch.from_numpy(original_labels)
 
         dataset = zip(data, targets)
-        new_labels = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
-
+        new_labels,T = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
+        self.T = T
         self.train_data, self.val_data, self.train_noisy_labels, self.val_noisy_labels,self.train_clean_labels, self.val_clean_labels= tools.data_split(original_images, targets, new_labels, split_percentage,seed)
         if self.train:      
             self.train_data = self.train_data.reshape((-1,3,32,32))
@@ -244,10 +244,10 @@ class fashionmnist_dataset(Data.Dataset):
         targets = torch.from_numpy(original_labels)
 
         dataset = zip(data, targets)
-        new_labels = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
-       
+        new_labels,T = tools.get_instance_noisy_label(noise_rate, dataset, targets, num_classes, feature_size, norm_std, seed)
+        self.T = T
 
-        self.train_data, self.val_data, self.train_noisy_labels, self.val_noisy_labels,self.train_clean_labels, self.val_clean_labels= tools.data_split(original_images, targets, new_labels, split_percentage,seed)
+        self.train_data, self.val_data, self.train_noisy_labels, self.val_noisy_labels,self.train_clean_labels, self.val_clean_labels, self.train_index, self.val_index = tools.data_split(original_images, targets, new_labels, split_percentage,seed)
 
     def __getitem__(self, index):
            

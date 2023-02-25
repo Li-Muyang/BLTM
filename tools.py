@@ -81,7 +81,7 @@ def get_instance_noisy_label(n, dataset, labels, num_classes, feature_size, norm
             cnt += 1
         if cnt >= 10:
             break
-    return np.array(new_label)
+    return np.array(new_label), P
 
 def norm(T):
     row_abs = torch.abs(T)
@@ -122,7 +122,7 @@ def data_split(data, clean_labels, noisy_labels, split_percentage, seed=1):
     train_clean_labels, val_clean_labels = clean_labels[train_set_index], clean_labels[val_set_index]
     train_noisy_labels, val_noisy_labels = noisy_labels[train_set_index], noisy_labels[val_set_index]
 
-    return train_set, val_set, train_noisy_labels, val_noisy_labels,train_clean_labels, val_clean_labels,
+    return train_set, val_set, train_noisy_labels, val_noisy_labels,train_clean_labels, val_clean_labels, train_set_index, val_set_index
 
 
 def transform_target(label):
