@@ -155,7 +155,9 @@ class ResNet_F(nn.Module):
         
 def ResNet18(num_classes):
     return ResNet(BasicBlock, [2,2,2,2], num_classes)
-def ResNet18_F(num_classes):
+def ResNet18_F(num_classes,seed):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
     return ResNet_F(BasicBlock, [2,2,2,2], num_classes)
     
 def ResNet34(num_classes):
